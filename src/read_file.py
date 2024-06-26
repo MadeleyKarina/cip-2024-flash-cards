@@ -1,7 +1,5 @@
 # read file
 import os
-
-
 class DataReader:
     def __init__(self, filename, data_type="string"):
         self.filename = filename
