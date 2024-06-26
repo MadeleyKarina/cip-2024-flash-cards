@@ -25,8 +25,6 @@ class FlashCard:
         else:
             print("Warning: Pygame might not be initialized. Font creation might fail.")
 
-        # self.font = pygame.font.SysFont(None, FONT_SIZE)
-
         # Text surfaces for question and answer (pre-render for efficiency)
         self.question_surface = self.font.render(self.question, True, BLACK)
         self.answer_surface = self.font.render(self.answer, True, BLACK)
@@ -47,6 +45,9 @@ class FlashCard:
 
     def handle_click(self, pos):
         # Check if click is within the card's boundaries
+        print("////////")
+        print(self.x, pos,self.width,self.x < pos[0] < self.x + self.width
+            and self.y < pos[1] < self.y + self.height)
         if (
             self.x < pos[0] < self.x + self.width
             and self.y < pos[1] < self.y + self.height
