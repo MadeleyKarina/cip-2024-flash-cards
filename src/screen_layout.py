@@ -1,8 +1,10 @@
 import pygame
 import flash_cards
+# import read_file
+# import button
 
 class SplitScreenLayout:
-    def __init__(self, screen_width, screen_height):
+    def __init__(self, screen_width, screen_height, flashcards_from_file):
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.section_ratio = 0.25  # 70% width for the right section
@@ -12,81 +14,115 @@ class SplitScreenLayout:
         self.menu_section_rect = pygame.Rect(0, 0, self.menu_section_width, screen_height)
         self.right_section_rect = pygame.Rect(self.menu_section_width, 0, screen_width - self.menu_section_width, screen_height)
 
-    def draw_cards(self):
-        flashcards = []
-        questions = ["What is the capital of France?", "What is 2 + 2?"]
-        answers = ["Paris", "4"]
-        card_width = 150
-        card_height = 100
-        margin = 20
-        # Track the current row's x position (starts at margin)
-        current_row_x = self.right_section_rect.left + margin
+         # Button properties (customize as needed)
+        self.button_width = 150
+        self.button_height = 50
+        self.button_margin = 10
+        self.button_colors = [(200, 200, 255), (150, 150, 255)]  # Default and hover colors
 
-        for question, answer in zip(questions, answers):
-            # Check if there's enough space for the card in the current row
-            if current_row_x + card_width + margin > self.right_section_rect.right:
-                # Move to the next row (reset x and adjust y)
-                current_row_x = self.right_section_rect.left + margin
-                y = flashcards[-1].y + card_height + margin if flashcards else margin  # Start at top or below last card
-            else:
-                y = margin  # Start from top for the first card in a row
+        self.button_tag = ""
 
-            flashcard = flash_cards.FlashCard(question, answer, current_row_x, y, card_width, card_height)
-            flashcards.append(flashcard)
+        self.flashcards_file = self.create_flash_cards(flashcards_from_file)
+        self.flashcards = []
 
-            # Update current_row_x for the next card in the same row
-            current_row_x += card_width + margin
+        # Initialize button states (False = not clicked, True = clicked)
+        self.num_buttons = len(self.flashcards_file)
 
-        return flashcards
+    def draw_cards(self, button, screen):
+        self.load_flashcards(button.get_clicked_tag())  # Get flashcards based on clicked tag
+        # Update current flashcard 
+        self.flashcards = self.flashcards_file[self.button_tag] if self.button_tag != "" else []
+        # Draw flashcard
+        for flashcard_file in self.flashcards:
+            flashcard_file.draw(screen)
 
-    def draw(self, screen, flashcards):
+    def draw(self, screen):
         # Draw the split sections
         pygame.draw.rect(screen, (200, 200, 200), self.menu_section_rect)  # Customize menu section color
         pygame.draw.rect(screen, (220, 220, 220), self.right_section_rect)  # Customize right section color
+    
+    def create_flash_cards(self, flashcards_from_file):
+        flashcards_file = {}
 
+        for flashcard_key in flashcards_from_file:
+            flashcards = []
+            card_width = 150
+            card_height = 100
+            margin = 20
+            # Track the current row's x position (starts at margin)
+            current_row_x = self.right_section_rect.left + margin
+            for flashcard in flashcards_from_file[flashcard_key]:
+                # Check if there's enough space for the card in the current row
+                if current_row_x + card_width + margin > self.right_section_rect.right:
+                    # Move to the next row (reset x and adjust y)
+                    current_row_x = self.right_section_rect.left + margin
+                    y = flashcards[-1].y + card_height + margin if flashcards else margin  # Start at top or below last card
+                else:
+                    y = margin  # Start from top for the first card in a row
+                flashcard_draw = flash_cards.FlashCard(flashcard["question"], flashcard["answer"], current_row_x, y, card_width, card_height)
+                flashcards.append(flashcard_draw)
+                # Update current_row_x for the next card in the same row
+                current_row_x += card_width + margin
+            flashcards_file[flashcard_key] = flashcards
+        return flashcards_file
 
-        # for event in pygame.event.get():
-        #     if event.type == pygame.MOUSEBUTTONDOWN:
-        #         mouse_pos = pygame.mouse.get_pos()  # Get mouse position
-        #         for card in flashcards:
-        #             card.handle_click(mouse_pos)
+    def handle_button_click(self, mouse_pos, button):
+        # Check click within button rect for each button
+        tag_flashcard = button.handle_button_click(mouse_pos)
+        if tag_flashcard:    
+            # if self.flashcards:  # Clear only if flashcards exist
+            #     self.flashcards.clear()
+            # Optionally, load or generate flashcards based on button index (i)
+            self.load_flashcards(tag_flashcard)  # Replace with your logic
 
-        # # Draw all flashcards on the screen
-        # for card in flashcards:
-        #     card.draw(screen)
-
-
-
+    def load_flashcards(self, button_tag):
+        if button_tag:
+           #self.flashcards = self.flashcards_file[button_tag]
+           self.button_tag = button_tag
 
 # Example usage
-if __name__ == "__main__":
-    pygame.init()
-    screen_width = 1200
-    screen_height = 800
-    screen = pygame.display.set_mode((screen_width, screen_height))
-    pygame.display.set_caption("Flashcard - CIP")
+# if __name__ == "__main__":
+#     pygame.init()
+#     screen_width = 1200
+#     screen_height = 800
+#     screen = pygame.display.set_mode((screen_width, screen_height))
+#     pygame.display.set_caption("Flashcard - CIP")
 
-    layout = SplitScreenLayout(screen_width, screen_height)
-    flashcards = layout.draw_cards()
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()  # Get mouse position
-                for card in flashcards:
-                    card.handle_click(mouse_pos)
+#     data_reader = read_file.DataReader("card_data", "my_flash_cards.txt", ".txt")  # Read as integer
+#     flashcards_from_file =  data_reader.read_flashcards_from_file()
+#     flashcards_key = list(flashcards_from_file.keys())
+
+#     num_buttons = len(flashcards_from_file)
+    
+#     layout = SplitScreenLayout(screen_width, screen_height, flashcards_from_file)
+#     button = button.Button(layout.menu_section_width, layout.menu_section_rect, num_buttons)
+
+#     # layout.draw_cards(button, screen)
+#     running = True
+#     while running:
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 running = False
+#             if event.type == pygame.MOUSEBUTTONDOWN:
+#                 mouse_pos = pygame.mouse.get_pos()  # Get mouse position
+#                 layout.handle_button_click(mouse_pos, button)
+#                 for card in layout.flashcards:
+#                     card.handle_click(mouse_pos)
 
 
-        screen.fill((255, 255, 255))  # Fill background with white
-        layout.draw(screen, flashcards)
-        # Draw all flashcards on the screen
-        for card in flashcards:
-            card.draw(screen)
+#         screen.fill((255, 255, 255))  # Fill background with white
+
+#         layout.draw(screen)
+
+#         # Draw the menu section (buttons)
+#         for key in flashcards_from_file:
+#             idx = flashcards_key.index(key)
+#             button.draw_buttons(screen, idx, key)
         
-        
-        #Update the display
-        pygame.display.flip()
+#         # Draw all flashcards on the screen
+#         layout.draw_cards(button, screen)
 
-    pygame.quit()
+#         #Update the display
+#         pygame.display.flip()
+
+#     pygame.quit()
