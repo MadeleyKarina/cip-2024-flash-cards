@@ -31,17 +31,19 @@ class FlashCard:
 
         self.is_flipped = False  # Track if the card is flipped
 
-    def draw(self, screen):
+    def draw(self, screen, start_y):
         # Draw a rectangle for the card
-        pygame.draw.rect(screen, WHITE, (self.x, self.y, self.width, self.height))
+        pygame.draw.rect(screen, WHITE, (self.x, self.y + start_y, self.width, self.height))
 
         # Display question or answer based on flipped state
+        x = self.x + 10
+        y = self.y + start_y + 10
         if self.is_flipped:
             screen.blit(
-                self.answer_surface, (self.x + 10, self.y + 10)
+                self.answer_surface, (x, y)
             )  # Adjust positioning for padding
         else:
-            screen.blit(self.question_surface, (self.x + 10, self.y + 10))
+            screen.blit(self.question_surface, (x, y))
 
     def handle_click(self, pos):
         # Check if click is within the card's boundaries

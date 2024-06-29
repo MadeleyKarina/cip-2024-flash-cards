@@ -13,8 +13,8 @@ class Button:
         self.button_width = 100
         self.button_height = 50
         self.button_margin = 10
-        self.button_colors = [(200, 200, 255), (150, 150, 255)]  # Default and hover colors
-
+        self.button_colors = [(208, 224, 255), (200, 200, 255)]  # Default and hover colors
+# rgb(208, 224, 255)
         self.num_buttons = num_buttons
         self.button_states = [False] * num_buttons
 
@@ -55,6 +55,7 @@ class Button:
                 self.button_states[i] = not self.button_states[i]
 
                 return self.positions[i]
+
     def get_clicked_tag(self):
         # Return the tag associated with the clicked button (if any)
         for i, button_state in enumerate(self.button_states):

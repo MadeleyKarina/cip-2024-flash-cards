@@ -22,7 +22,7 @@ class DataReader:
                 continue
 
             # Split each line by the question mark separator
-            tag_question, answer = line.strip().split("?")
+            tag_question, answer = line.strip().split(":")
             if not tag_question or not answer:
                 continue
             
