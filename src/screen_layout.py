@@ -17,10 +17,6 @@ class SplitScreenLayout:
         # Calculate section dimensions
         self.title_bar_rect = pygame.Rect(0, 0, screen_width, self.title_bar_height)
         self.title_text_margin = 10
-        # self.menu_section_width = int(screen_width * self.section_ratio)
-        # self.menu_section_rect = pygame.Rect(0, 0, self.menu_section_width, screen_height)
-        # self.right_section_rect = pygame.Rect(self.menu_section_width, 0, screen_width - self.menu_section_width, screen_height)
-
 
          # Calculate remaining section dimensions
         self.menu_section_height = self.screen_height - self.title_bar_height - self.title_bar_margin
@@ -77,8 +73,8 @@ class SplitScreenLayout:
 
         for flashcard_key in flashcards_from_file:
             flashcards = []
-            card_width = 150
-            card_height = 100
+            card_width = 210
+            card_height = 150
             margin = 20
             # Track the current row's x position (starts at margin)
             current_row_x = self.right_section_rect.left + margin

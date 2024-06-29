@@ -1,11 +1,11 @@
-For Loop -  "What is a for loop used for?" : "Repeating a block of code a fixed number of times."
-For Loop -  "What are the three parts of a for loop?" : "Loop variable, range, code body."
-For Loop -  "How does the range() function work in a for loop?" : "It specifies the values the loop variable takes on in each iteration."
-For Loop -  "Can you loop through a specific range (e.g., 5 to 10) using range()?" : "Yes, use range(start, stop) syntax."
-For Loop -  "Can you loop through even numbers in a range using range()?" : "Yes, use range(start, stop, step) syntax with step set to 2."
+For Loop -  What is a for loop used for? : Repeating a block of code a fixed number of times.
+For Loop -  What are the three parts of a for loop? : Loop variable, range, code body.
+For Loop -  How does the range() function work in a for loop? : It specifies the values the loop variable takes on in each iteration.
+For Loop -  Can you loop through a specific range (e.g., 5 to 10) using range()? : Yes, use range(start, stop) syntax.
+For Loop -  Can you loop through even numbers in a range using range()? : Yes, use range(start, stop, step) syntax with step set to 2.
 
-While Loop -  "What is a while loop used for?" : "Repeating a block of code until a condition is met."
-While Loop -  "When would you use a while loop over a for loop?" : "When you don't know how many times the loop should run."
-While Loop -  "What happens if a while loop condition never becomes False? (Infinite Loop)" : "The loop will run forever, which is usually an error."
-While Loop -  "How can you avoid infinite loops with while loops?" : "Ensure the condition eventually becomes False within the loop's body."
+Whileeeeeeeeeeeee Loopppppppppppppppppppppp -  What is a while loop used for? : Repeating a block of code until a condition is met.
+While Loop -  When would you use a while loop over a for loop? : When you don't know how many times the loop should run.
+While Loop -  What happens if a while loop condition never becomes False? (Infinite Loop) : The loop will run forever, which is usually an error.
+While Loop -  How can you avoid infinite loops with while loops? : Ensure the condition eventually becomes False within the loop's body.
     
