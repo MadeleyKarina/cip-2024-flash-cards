@@ -43,37 +43,29 @@ class FlashCard:
         self.is_flipped = False  # Track if the card is flipped
 
     def break_lines(self, text):
-        # Wrap text using textwrap, ensuring lines fit within width limit
-        # wrapped_text = textwrap.wrap(text, width=self.text_width_limit // self.font.size(" ")[0])
-        # wrapped_text = textwrap.wrap(text, width=self.text_width_limit // self.font.size(" ")[0], max_lines=self.max_lines)
-        
-         # Wrap text with a character limit per line to ensure width fit
+        # Wrap text with a character limit per line to ensure width fit
         char_width = self.font.size(" ")[0]  # Get character width
         max_chars_per_line = int(self.text_width_limit / char_width) - 1  # Adjust for potential word breaks
         wrapped_lines = textwrap.wrap(text, width=max_chars_per_line, max_lines=self.max_lines)
-        # wrapped_lines = textwrap.wrap(text, width=self.text_width_limit // self.font.size(" ")[0], max_lines=self.max_lines)
        
         surfaces = []
-        current_exceed = ""
+
         current_line = ""
         for line in wrapped_lines:
             # Iteratively shorten the line until it fits within width limit
             current_line += line
-            current_exceed = ""
+            current_exceed = " "
             while self.font.size(current_line)[0] > self.text_width_limit - 10:  # Adjust for potential word cut-off
-                current_exceed = current_line[-1] + current_exceed
-                current_line = current_line[:-1]  # Remove the last character
-            surfaces.append(self.font.render(current_line, True, BLACK))
+                current_line = current_line.split()
+                current_exceed = " " + current_line[-1] + current_exceed
+                current_line = " ".join(current_line[:-1])  # Remove the last character
+            surfaces.append(self.font.render(current_line.strip(), True, BLACK))
             current_line = current_exceed
         
         if current_line != "":
-            surfaces.append(self.font.render(current_line,True, BLACK))
+            surfaces.append(self.font.render(current_line.strip(),True, BLACK))
         
         return surfaces
-    
-        # for line in wrapped_text:
-        #     surfaces.append(self.font.render(line, True, BLACK))
-        # return surfaces
 
     def draw(self, screen, start_y):
         # Draw a rectangle for the card
@@ -85,14 +77,17 @@ class FlashCard:
         line_height = self.font.get_linesize()  # Get line height for spacing
 
         if self.is_flipped:
-            for surface in self.answer_surface:
-                screen.blit(surface, (x, y))  # Adjust positioning for padding
+            for text_surface in self.answer_surface:
+                text_rect = text_surface.get_rect()
+                x_center = (self.x + self.card_width // 2) - text_rect.width // 2
+                screen.blit(text_surface, (x_center, y))  # Adjust positioning for padding
                 y += line_height
         else:
-            for surface in self.question_surface:
-                screen.blit(surface, (x, y))
+            for text_surface in self.question_surface:
+                text_rect = text_surface.get_rect()
+                x_center = (self.x + self.card_width // 2) - text_rect.width // 2
+                screen.blit(text_surface, (x_center, y))
                 y += line_height
-            # screen.blit(self.question_surface[0], (x, y))
 
     def handle_click(self, pos):
         # Check if click is within the card's boundaries

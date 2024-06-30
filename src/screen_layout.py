@@ -74,7 +74,7 @@ class SplitScreenLayout:
         for flashcard_key in flashcards_from_file:
             flashcards = []
             card_width = 210
-            card_height = 150
+            card_height = 130
             margin = 20
             # Track the current row's x position (starts at margin)
             current_row_x = self.right_section_rect.left + margin

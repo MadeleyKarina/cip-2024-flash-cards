@@ -57,8 +57,6 @@ class Button:
         y_center = button_rect.centery - text_rect.height // 2
 
         screen.blit(text_surface, (x_center, y_center))  # Adjust positioning for padding
-        # Display text
-        # screen.blit(text_surface, (button_rect.left + self.button_margin, button_rect.top + self.button_margin))  # Adjust positioning for padding
     
     def handle_button_click(self, mouse_pos):
         # Check click within button rect for each button
