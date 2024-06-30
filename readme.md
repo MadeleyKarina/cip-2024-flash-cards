@@ -11,6 +11,8 @@
 ## Execute project
 * `python3 ./src/main.py`
 
+![screenshot](readme_img.png)
+
 ## Considerations:
 * The flashcards hasn't have dynamic height. Questions and answers should be brief.
 * To put your own flahscard information should be in the `card_data/my_flash_cards.txt` file.
