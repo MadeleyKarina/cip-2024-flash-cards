@@ -42,7 +42,7 @@ class SplitScreenLayout:
         self.flashcards = self.flashcards_file[self.button_tag] if self.button_tag != "" else []
         # Draw flashcard
         for flashcard_file in self.flashcards:
-            flashcard_file.draw(screen, self.title_bar_height)
+            flashcard_file.draw(screen)
 
     def draw(self, screen):
         # Draw the title bar
@@ -84,7 +84,7 @@ class SplitScreenLayout:
                     y = flashcards[-1].y + card_height + margin if flashcards else margin  # Start at top or below last card
                 else:
                     y = margin  # Start from top for the first card in a row
-                flashcard_draw = flash_cards.FlashCard(flashcard["question"], flashcard["answer"], current_row_x, y, card_width, card_height)
+                flashcard_draw = flash_cards.FlashCard(flashcard["question"], flashcard["answer"], current_row_x, y, self.title_bar_height, card_width, card_height)
                 flashcards.append(flashcard_draw)
                 # Update current_row_x for the next card in the same row
                 current_row_x += card_width + margin

@@ -4,18 +4,20 @@ import textwrap
 # Define some colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+GREY = (128, 128, 128)  # Color for unflipped card frame
+BLUE = (0, 0, 255)  # Color for flipped card frame
 
 # Font size for text
 FONT_SIZE = 23
 
-
 class FlashCard:
-    def __init__(self, question, answer, x, y, width, height):
+    def __init__(self, question, answer, x, y, start_y, width, height):
         self.question = question
 
         self.answer = answer
         self.x = x
         self.y = y
+        self.start_y = start_y
 
         self.card_width = width
         self.card_height = height
@@ -28,7 +30,7 @@ class FlashCard:
             print("Warning: Pygame might not be initialized. Font creation might fail.")
 
         # Calculate maximum text width that fits within the card with margins
-        self.text_width_limit = width - 20  # Adjust margin for text
+        self.text_width_limit = width - 30  # Adjust margin for text
         # Calculate maximum number of lines that fit within card height
         self.max_lines = int(height / self.font.get_linesize()) - 2  # Adjust for padding
 
@@ -55,34 +57,47 @@ class FlashCard:
             # Iteratively shorten the line until it fits within width limit
             current_line += line
             current_exceed = " "
-            while self.font.size(current_line)[0] > self.text_width_limit - 10:  # Adjust for potential word cut-off
+            while self.font.size(current_line)[0] > self.text_width_limit:  # Adjust for potential word cut-off
                 current_line = current_line.split()
                 current_exceed = " " + current_line[-1] + current_exceed
                 current_line = " ".join(current_line[:-1])  # Remove the last character
+            
             surfaces.append(self.font.render(current_line.strip(), True, BLACK))
             current_line = current_exceed
         
         if current_line != "":
-            surfaces.append(self.font.render(current_line.strip(),True, BLACK))
+            if self.font.size(current_line)[0] > self.text_width_limit:  # Adjust for potential word cut-off
+                current_line = current_line.split()
+                current_exceed = current_line[-1]
+                current_line = " ".join(current_line[:-1])  # Remove the last character
+                surfaces.append(self.font.render(current_line.strip(),True, BLACK))
+                surfaces.append(self.font.render(current_exceed.strip(),True, BLACK))
         
         return surfaces
 
-    def draw(self, screen, start_y):
+    def draw(self, screen):
+         # Draw a rectangle for the card with border
+        border_size = 2  # Adjust border thickness
+
         # Draw a rectangle for the card
-        pygame.draw.rect(screen, WHITE, (self.x, self.y + start_y, self.card_width, self.card_height))
+        pygame.draw.rect(screen, WHITE, (self.x, self.y + self.start_y, self.card_width, self.card_height))
 
         # Display question or answer based on flipped state
         x = self.x + 10
-        y = self.y + start_y + 10
+        y = self.y + self.start_y + 10
         line_height = self.font.get_linesize()  # Get line height for spacing
-
+         # Draw inner rectangle with different color based on flipped state
+        inner_rect = pygame.Rect(self.x, self.y + self.start_y, self.card_width, self.card_height)
+       
         if self.is_flipped:
+            pygame.draw.rect(screen, GREY, inner_rect, border_size)  # Draw black outer border
             for text_surface in self.answer_surface:
                 text_rect = text_surface.get_rect()
                 x_center = (self.x + self.card_width // 2) - text_rect.width // 2
                 screen.blit(text_surface, (x_center, y))  # Adjust positioning for padding
                 y += line_height
         else:
+            pygame.draw.rect(screen, BLUE, inner_rect, border_size)  # Draw black outer border
             for text_surface in self.question_surface:
                 text_rect = text_surface.get_rect()
                 x_center = (self.x + self.card_width // 2) - text_rect.width // 2
@@ -93,6 +108,6 @@ class FlashCard:
         # Check if click is within the card's boundaries
         if (
             self.x < pos[0] < self.x + self.card_width
-            and self.y < pos[1] < self.y + self.card_height
+            and (self.y + self.start_y) < pos[1] < (self.y + self.start_y) + self.card_height
         ):
             self.is_flipped = not self.is_flipped  # Flip the card state
