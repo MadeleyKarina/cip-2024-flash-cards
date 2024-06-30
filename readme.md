@@ -11,7 +11,7 @@
 ## Execute project
 * `python3 ./src/main.py`
 
-![Watch the video](https://youtu.be/7hGUeGCf4Mo)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/7hGUeGCf4Mo)](https://youtu.be/7hGUeGCf4Mo)
 
 ## Considerations:
 * The flashcards hasn't have dynamic height. Questions and answers should be brief.
