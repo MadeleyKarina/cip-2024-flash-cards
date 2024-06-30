@@ -39,7 +39,3 @@ class DataReader:
 
         return flashcards
 
-# data_reader = DataReader("card_data", "my_flash_cards.txt", ".txt")  # Read as integer
-# data =  data_reader.read_flashcards_from_file()
-
-# print(f"Read data: {data}")

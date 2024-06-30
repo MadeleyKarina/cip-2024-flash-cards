@@ -1,7 +1,5 @@
 import pygame
 import flash_cards
-# import read_file
-# import button
 
 class SplitScreenLayout:
     def __init__(self, screen_width, screen_height, flashcards_from_file):
@@ -107,49 +105,3 @@ class SplitScreenLayout:
            #self.flashcards = self.flashcards_file[button_tag]
            self.button_tag = button_tag
 
-# Example usage
-# if __name__ == "__main__":
-#     pygame.init()
-#     screen_width = 1200
-#     screen_height = 800
-#     screen = pygame.display.set_mode((screen_width, screen_height))
-#     pygame.display.set_caption("Flashcard - CIP")
-
-#     data_reader = read_file.DataReader("card_data", "my_flash_cards.txt", ".txt")  # Read as integer
-#     flashcards_from_file =  data_reader.read_flashcards_from_file()
-#     flashcards_key = list(flashcards_from_file.keys())
-
-#     num_buttons = len(flashcards_from_file)
-    
-#     layout = SplitScreenLayout(screen_width, screen_height, flashcards_from_file)
-#     button = button.Button(layout.menu_section_width, layout.menu_section_rect, num_buttons)
-
-#     # layout.draw_cards(button, screen)
-#     running = True
-#     while running:
-#         for event in pygame.event.get():
-#             if event.type == pygame.QUIT:
-#                 running = False
-#             if event.type == pygame.MOUSEBUTTONDOWN:
-#                 mouse_pos = pygame.mouse.get_pos()  # Get mouse position
-#                 layout.handle_button_click(mouse_pos, button)
-#                 for card in layout.flashcards:
-#                     card.handle_click(mouse_pos)
-
-
-#         screen.fill((255, 255, 255))  # Fill background with white
-
-#         layout.draw(screen)
-
-#         # Draw the menu section (buttons)
-#         for key in flashcards_from_file:
-#             idx = flashcards_key.index(key)
-#             button.draw_buttons(screen, idx, key)
-        
-#         # Draw all flashcards on the screen
-#         layout.draw_cards(button, screen)
-
-#         #Update the display
-#         pygame.display.flip()
-
-#     pygame.quit()
