@@ -72,7 +72,7 @@ class SplitScreenLayout:
         for flashcard_key in flashcards_from_file:
             flashcards = []
             card_width = 210
-            card_height = 130
+            card_height = 150
             margin = 20
             # Track the current row's x position (starts at margin)
             current_row_x = self.right_section_rect.left + margin
@@ -83,7 +83,7 @@ class SplitScreenLayout:
                     current_row_x = self.right_section_rect.left + margin
                     y = flashcards[-1].y + card_height + margin if flashcards else margin  # Start at top or below last card
                 else:
-                    y = margin  # Start from top for the first card in a row
+                    y = margin # Start from top for the first card in a row
                 flashcard_draw = flash_cards.FlashCard(flashcard["question"], flashcard["answer"], current_row_x, y, self.title_bar_height, card_width, card_height)
                 flashcards.append(flashcard_draw)
                 # Update current_row_x for the next card in the same row

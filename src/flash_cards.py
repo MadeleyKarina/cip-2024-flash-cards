@@ -65,13 +65,15 @@ class FlashCard:
             surfaces.append(self.font.render(current_line.strip(), True, BLACK))
             current_line = current_exceed
         
-        if current_line != "":
-            if self.font.size(current_line)[0] > self.text_width_limit:  # Adjust for potential word cut-off
+        while current_line != "":
+            current_exceed = ""
+            while self.font.size(current_line)[0] > self.text_width_limit:  # Adjust for potential word cut-off
                 current_line = current_line.split()
-                current_exceed = current_line[-1]
-                current_line = " ".join(current_line[:-1])  # Remove the last character
-                surfaces.append(self.font.render(current_line.strip(),True, BLACK))
-                surfaces.append(self.font.render(current_exceed.strip(),True, BLACK))
+                current_exceed = " " + current_line[-1] + current_exceed
+                current_line = " ".join(current_line[:-1]) # Remove the last character
+            
+            surfaces.append(self.font.render(current_line.strip(),True, BLACK))
+            current_line = current_exceed
         
         return surfaces
 
