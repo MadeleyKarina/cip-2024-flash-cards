@@ -10,3 +10,13 @@
 
 ## Execute project
 * `python3 ./src/main.py`
+
+## Considerations:
+* The flashcards hasn't have dynamic height. Questions and answers should be brief.
+* To put your own flahscard information should be in the `card_data/my_flash_cards.txt` file.
+
+## Next Steps
+
+- [ ] Upload of `.txt` files for new flashcard information.
+- [ ] Button to clean cards in the screen.
+- [ ] Update status of flip card when the context change. (ex: from for loop to while loop).
