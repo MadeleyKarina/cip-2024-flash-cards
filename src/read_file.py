@@ -38,4 +38,3 @@ class DataReader:
                 flashcards[tag] = [flashcard]
 
         return flashcards
-
